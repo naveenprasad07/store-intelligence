@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Intelligence Dashboard — Purplle Brigade Road</title>
+<link rel="icon" type="image/svg+xml" href="purplle_favicon.svg">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f1a; color: #e0e0f0; min-height: 100vh; }
+  header { background: linear-gradient(90deg, #6b21a8, #a855f7); padding: 16px 32px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 1.4rem; font-weight: 700; }
+  header .sub { font-size: 0.85rem; opacity: 0.8; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; margin-left: auto; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px 32px; }
+  .card { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 12px; padding: 20px; }
+  .card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; margin-bottom: 8px; }
+  .card .big { font-size: 2.5rem; font-weight: 700; color: #e0e0f0; }
+  .card .sub { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 16px; padding: 0 32px 24px; }
+  .funnel-bar { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .funnel-step { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+  .funnel-step .label { width: 120px; color: #9ca3af; font-size: 0.78rem; }
+  .funnel-step .bar-wrap { flex: 1; background: #2d2d4e; border-radius: 4px; height: 22px; overflow: hidden; }
+  .funnel-step .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 0.75rem; font-weight: 600; transition: width 0.8s ease; }
+  .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .zone-chip { background: #2d2d4e; border-radius: 8px; padding: 10px; }
+  .zone-chip .zname { font-size: 0.72rem; color: #9ca3af; margin-bottom: 4px; }
+  .zone-chip .zdwell { font-size: 1.1rem; font-weight: 600; }
+  .zone-chip .zbar { height: 4px; border-radius: 2px; background: #6b21a8; margin-top: 6px; transition: width 0.8s; }
+  .anomaly-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto; }
+  .anomaly-item { background: #2d2d4e; border-radius: 8px; padding: 10px 12px; border-left: 3px solid; font-size: 0.8rem; }
+  .anomaly-item.low    { border-color: #22c55e; }
+  .anomaly-item.medium { border-color: #f59e0b; }
+  .anomaly-item.high   { border-color: #ef4444; }
+  .anomaly-item .atype { font-weight: 600; text-transform: capitalize; }
+  .anomaly-item .adesc { color: #9ca3af; margin-top: 2px; }
+  .refresh-info { text-align: center; padding: 8px; font-size: 0.72rem; color: #4b5563; }
+  .api-url { background: #1a1a2e; border: 1px solid #2d2d4e; padding: 10px 32px; font-size: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 12px; }
+  .api-url input { background: #0f0f1a; border: 1px solid #2d2d4e; color: #e0e0f0; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; width: 280px; }
+  .api-url button { background: #6b21a8; color: white; border: none; padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="sub">Purplle Tech Challenge 2026</div>
+    <h1>Store Intelligence — Brigade Road, Bangalore</h1>
+  </div>
+  <div class="status-dot" id="statusDot" title="Pipeline status"></div>
+</header>
+
+<div class="api-url">
+  API base URL:
+  <input id="apiInput" value="http://localhost:8000" placeholder="http://localhost:8000">
+  <button onclick="setApi()">Connect</button>
+  <span id="connStatus" style="color:#6b7280">—</span>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Visitors Today</h3>
+    <div class="big" id="totalEntries">—</div>
+    <div class="sub" id="uniqueVisitors">unique: —</div>
+  </div>
+  <div class="card">
+    <h3>Current Occupancy</h3>
+    <div class="big" id="occupancy">—</div>
+    <div class="sub">people inside now</div>
+  </div>
+  <div class="card">
+    <h3>Avg Dwell Time</h3>
+    <div class="big" id="dwellTime">—</div>
+    <div class="sub">minutes per visit</div>
+  </div>
+  <div class="card">
+    <h3>Conversion Rate</h3>
+    <div class="big" id="convRate">—</div>
+    <div class="sub" id="billingReaches">— reached billing</div>
+  </div>
+</div>
+
+<div class="row2">
+  <!-- Funnel -->
+  <div class="card">
+    <h3>Conversion Funnel</h3>
+    <div class="funnel-bar" id="funnelBar"></div>
+  </div>
+
+  <!-- Anomalies -->
+  <div class="card">
+    <h3>Anomalies</h3>
+    <div class="anomaly-list" id="anomalyList"><div style="color:#4b5563;font-size:0.8rem">No anomalies detected</div></div>
+  </div>
+
+  <!-- Zone Heatmap -->
+  <div class="card">
+    <h3>Zone Engagement</h3>
+    <div class="zone-grid" id="zoneGrid"></div>
+  </div>
+</div>
+
+<div class="refresh-info" id="lastRefresh">Connecting...</div>
+
+<script>
+let API = 'http://localhost:8000';
+let refreshTimer;
+
+function setApi() {
+  API = document.getElementById('apiInput').value.replace(/\/$/, '');
+  clearInterval(refreshTimer);
+  fetchAll();
+  refreshTimer = setInterval(fetchAll, 5000);
+}
+
+async function fetchAll() {
+  try {
+    const [metrics, occ] = await Promise.all([
+      fetch(`${API}/metrics`).then(r => r.json()),
+      fetch(`${API}/occupancy`).then(r => r.json()),
+    ]);
+    render(metrics, occ);
+    document.getElementById('connStatus').textContent = '● Connected';
+    document.getElementById('connStatus').style.color = '#22c55e';
+    document.getElementById('statusDot').style.background = metrics.pipeline_status === 'running' ? '#22c55e' : '#f59e0b';
+  } catch(e) {
+    document.getElementById('connStatus').textContent = '✕ ' + e.message;
+    document.getElementById('connStatus').style.color = '#ef4444';
+    document.getElementById('statusDot').style.background = '#ef4444';
+  }
+}
+
+function render(m, occ) {
+  const t = m.traffic, f = m.funnel;
+
+  document.getElementById('totalEntries').textContent = t.total_entries;
+  document.getElementById('uniqueVisitors').textContent = `unique: ${t.unique_visitors}`;
+  document.getElementById('occupancy').textContent = occ.current_occupancy ?? t.current_occupancy;
+  document.getElementById('dwellTime').textContent = t.avg_dwell_minutes.toFixed(1);
+  document.getElementById('convRate').textContent = (f.conversion_rate * 100).toFixed(1) + '%';
+  document.getElementById('billingReaches').textContent = `${f.billing_reaches} reached billing`;
+
+  // Funnel
+  const maxVal = f.store_entries || 1;
+  const steps = [
+    { label: 'Store Entries',    val: f.store_entries,      color: '#7c3aed' },
+    { label: 'Zone Engagement',  val: f.zone_engagements,   color: '#6d28d9' },
+    { label: 'Trial Area',       val: f.trial_area_visits,  color: '#5b21b6' },
+    { label: 'Billing Counter',  val: f.billing_reaches,    color: '#4c1d95' },
+  ];
+  document.getElementById('funnelBar').innerHTML = steps.map(s => `
+    <div class="funnel-step">
+      <div class="label">${s.label}</div>
+      <div class="bar-wrap">
+        <div class="bar-fill" style="width:${Math.max(4,(s.val/maxVal*100)).toFixed(1)}%;background:${s.color}">${s.val}</div>
+      </div>
+    </div>`).join('');
+
+  // Zones
+  const maxHot = Math.max(...m.zone_dwells.map(z => z.hotspot_score), 0.001);
+  document.getElementById('zoneGrid').innerHTML = m.zone_dwells
+    .filter(z => z.zone_id !== 'entry')
+    .sort((a,b) => b.hotspot_score - a.hotspot_score)
+    .map(z => `
+      <div class="zone-chip">
+        <div class="zname">${z.zone_name}</div>
+        <div class="zdwell">${z.avg_dwell_seconds.toFixed(0)}s</div>
+        <div class="zbar" style="width:${(z.hotspot_score/maxHot*100).toFixed(0)}%"></div>
+      </div>`).join('');
+
+  // Anomalies
+  const al = document.getElementById('anomalyList');
+  if (!m.anomalies.length) {
+    al.innerHTML = '<div style="color:#4b5563;font-size:0.8rem">No anomalies detected</div>';
+  } else {
+    al.innerHTML = m.anomalies.slice(-10).reverse().map(a => `
+      <div class="anomaly-item ${a.severity}">
+        <div class="atype">${a.anomaly_type.replace(/_/g,' ')}</div>
+        <div class="adesc">${a.description}</div>
+      </div>`).join('');
+  }
+
+  document.getElementById('lastRefresh').textContent =
+    `Last updated: ${new Date().toLocaleTimeString()}  |  Pipeline: ${m.pipeline_status}`;
+}
+
+// Auto-start
+setApi();
+</script>
+</body>
+</html>

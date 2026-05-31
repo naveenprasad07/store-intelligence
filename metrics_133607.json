@@ -1,0 +1,174 @@
+{
+  "store_id": "Brigade_Bangalore",
+  "generated_at": "2026-05-31T13:36:07.462440",
+  "traffic": {
+    "date": "2026-05-31",
+    "hour": null,
+    "total_entries": 21,
+    "total_exits": 1,
+    "unique_visitors": 20,
+    "current_occupancy": 20,
+    "avg_dwell_minutes": 0.04,
+    "peak_hour": 13,
+    "staff_count": 0
+  },
+  "funnel": {
+    "date": "2026-05-31",
+    "store_entries": 21,
+    "zone_engagements": 3,
+    "trial_area_visits": 0,
+    "billing_reaches": 1,
+    "conversion_rate": 0.0476,
+    "zone_engagement_rate": 0.1429,
+    "trial_rate": 0.0
+  },
+  "zone_dwells": [
+    {
+      "zone_id": "entry",
+      "zone_name": "Entry / Billing",
+      "avg_dwell_seconds": 0.5,
+      "total_visits": 20,
+      "unique_visitors": 20,
+      "hotspot_score": 1.0
+    },
+    {
+      "zone_id": "skin",
+      "zone_name": "Skin Care",
+      "avg_dwell_seconds": 1.1,
+      "total_visits": 2,
+      "unique_visitors": 2,
+      "hotspot_score": 0.1
+    },
+    {
+      "zone_id": "makeup",
+      "zone_name": "Makeup",
+      "avg_dwell_seconds": 13.5,
+      "total_visits": 1,
+      "unique_visitors": 1,
+      "hotspot_score": 0.05
+    },
+    {
+      "zone_id": "hair",
+      "zone_name": "Hair Care",
+      "avg_dwell_seconds": 0.7,
+      "total_visits": 2,
+      "unique_visitors": 2,
+      "hotspot_score": 0.1
+    },
+    {
+      "zone_id": "bath_body",
+      "zone_name": "Bath & Body",
+      "avg_dwell_seconds": 0.3,
+      "total_visits": 1,
+      "unique_visitors": 1,
+      "hotspot_score": 0.05
+    },
+    {
+      "zone_id": "fragrance",
+      "zone_name": "Fragrance",
+      "avg_dwell_seconds": 0.0,
+      "total_visits": 0,
+      "unique_visitors": 0,
+      "hotspot_score": 0.0
+    },
+    {
+      "zone_id": "personal_care",
+      "zone_name": "Personal Care",
+      "avg_dwell_seconds": 0.0,
+      "total_visits": 0,
+      "unique_visitors": 0,
+      "hotspot_score": 0.0
+    },
+    {
+      "zone_id": "trial_area",
+      "zone_name": "Trial / Tester Area",
+      "avg_dwell_seconds": 0.0,
+      "total_visits": 0,
+      "unique_visitors": 0,
+      "hotspot_score": 0.0
+    },
+    {
+      "zone_id": "billing",
+      "zone_name": "Billing Counter",
+      "avg_dwell_seconds": 0.0,
+      "total_visits": 1,
+      "unique_visitors": 1,
+      "hotspot_score": 0.05
+    }
+  ],
+  "anomalies": [
+    {
+      "anomaly_id": "2e00c3b7-e727-4b47-9e67-0d7e1a78d00d",
+      "anomaly_type": "system",
+      "description": "Detection pipeline starting",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:20:57.582409",
+      "camera_id": "system",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "d698786c-feae-4cda-abc1-fd40e41893d2",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_01",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:21:11.197179",
+      "camera_id": "cam_01",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "739f95ba-1697-4389-bbc5-59d084869b9a",
+      "anomaly_type": "system",
+      "description": "Detection pipeline starting",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:24:55.947575",
+      "camera_id": "system",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "70ec29fd-55d8-404d-a72e-f467c68e308c",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_01",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:25:02.010640",
+      "camera_id": "cam_01",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "7382fa01-1e11-4c0c-bf9e-d9c83a696cbe",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_02",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:28:05.779676",
+      "camera_id": "cam_02",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "6543d7dc-0c97-42a6-a947-96ac4438360b",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_03",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:30:53.285872",
+      "camera_id": "cam_03",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "e7a5bf51-cd8e-4ea5-a6ea-0fe9839248b3",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_04",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:32:48.602657",
+      "camera_id": "cam_04",
+      "track_ids": []
+    },
+    {
+      "anomaly_id": "c9f43640-ac90-4bba-b7e5-d78fb0108cbc",
+      "anomaly_type": "pipeline_start",
+      "description": "Pipeline started for cam_05",
+      "severity": "low",
+      "detected_at": "2026-05-31T13:34:12.466877",
+      "camera_id": "cam_05",
+      "track_ids": []
+    }
+  ],
+  "pipeline_status": "idle"
+}

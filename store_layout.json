@@ -1,0 +1,28 @@
+{
+  "store_id": "Brigade_Bangalore",
+  "store_name": "Purplle Brigade Road, Bangalore",
+  "floors": 1,
+  "total_area_sqft": 2000,
+  "zones": [
+    {"id": "entry",       "name": "Entry / Billing",   "type": "entry_exit"},
+    {"id": "skin",        "name": "Skin Care",          "type": "product"},
+    {"id": "makeup",      "name": "Makeup",             "type": "product"},
+    {"id": "hair",        "name": "Hair Care",          "type": "product"},
+    {"id": "bath_body",   "name": "Bath & Body",        "type": "product"},
+    {"id": "fragrance",   "name": "Fragrance",          "type": "product"},
+    {"id": "personal_care","name": "Personal Care",     "type": "product"},
+    {"id": "trial_area",  "name": "Trial / Tester Area","type": "engagement"},
+    {"id": "billing",     "name": "Billing Counter",    "type": "conversion"}
+  ],
+  "cameras": [
+    {"id": "cam_01", "location": "entry_exit",   "covers_zones": ["entry"],                    "angle": "overhead"},
+    {"id": "cam_02", "location": "floor_left",   "covers_zones": ["skin", "hair"],             "angle": "side"},
+    {"id": "cam_03", "location": "floor_right",  "covers_zones": ["makeup", "fragrance"],      "angle": "side"},
+    {"id": "cam_04", "location": "floor_center", "covers_zones": ["bath_body","personal_care"],"angle": "overhead"},
+    {"id": "cam_05", "location": "billing_area", "covers_zones": ["trial_area","billing"],     "angle": "side"}
+  ],
+  "entry_line_y_fraction": 0.15,
+  "exit_line_y_fraction": 0.85,
+  "staff_zone_ids": ["billing"],
+  "operating_hours": {"open": "10:00", "close": "22:00"}
+}
