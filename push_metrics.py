@@ -2,7 +2,7 @@
 import os
 import json, redis, uuid
 from datetime import datetime
-from dotenv import load_env
+from dotenv import load_dotenv
 
 load_dotenv()
 
